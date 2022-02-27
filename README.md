@@ -10,16 +10,15 @@ AbInitioTopo.jl is a Julia concept package for copmuting topological invariants 
 
 Currently, this package is only capable of computing Z2 and Z4 invariants for systems with inversion symmetry. Z4 invariants are only defined when the system is both time-reversal and inversion symmetric, and Z2 reqiures time-reversal symmetry. If your system breaks inversion symmetry, this package won't work (yet).
 
-# Workflow
-## Requirements
+# Requirements
 1. `phonopy`, see instructions [here](https://phonopy.github.io/phonopy/install.html).
-2. `irvsp`, see instructions [here](https://ashour.dev/DFT+Technical/Compiling+irvsp)
+2. `irvsp`, see my personal instructions [here](https://ashour.dev/DFT+Technical/Compiling+irvsp)
 3. Julia, see [here](https://julialang.org/downloads/). In Julia, install the package as follows:
 ```
 julia> ]
 pkg> add https://github.com/oashour/AbInitioTopo.jl.git
 ```
-## Procedure
+# Procedure
 1. Generate a `POSCAR` file from VESTA or any other method.
 2. Run `phonopy --tolerance 0.01 --symmetry -c POSCAR` in the folder to generate the file `PPOSCAR` with the standard orientation. 
 3. `cp PPOSCAR POSCAR`
@@ -75,7 +74,13 @@ Z₂ = (ν₀;ν₁ν₂ν₃) = (0;000)
 System is a trivial insulator
 ```
 
-## Explanation of `nstart` and `nend`
+# Explanation of `nstart` and `nend`
 
 1. `nend` should be self explanatory. It is the index of the topmost occupied band right below the topological gap of interest. Note that this is not necessarily the valence band, you might be studying a lower or higher lying gap.
 2. `nstart` this parameter should not be required in a perfect world. Whenever you get an `irvsp.out` file, carefully check it at each TRIM for any question marks. See for example the 8th TRIM in the `example/irvsp_sr3pbo.out` file. At this TRIM, for whatever reason, `irvsp` failed to compute the irreps for the first 6 bands so we have to exclude them. This is okay since these are actually the oxygen `p` bands of this system and represent a full manifold so we can safely exclude them (look at your DOS!). Fully occupied orbitals (semi-core states) can be excluded from these calculations safely, otherwise, we'd have to include every single electron in our DFT pseudopotential.
+
+# Citations
+If you happen to use this code, please link to the repository.
+
+# Disclaimer
+Please read the license terms, you can do whatever you want with the code, but keep in mind it is provided without any guarantees of correctness or accuracy. You should check everything yourself (as always!)
